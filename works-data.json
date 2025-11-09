@@ -1,0 +1,79 @@
+{
+  "works": [
+    {
+      "id": 1,
+      "title": "3D Character Model",
+      "description": "Stylized character design with detailed textures and rigging for animation. Created for a personal project exploring low-poly art style.",
+      "media": {
+        "type": "image",
+        "url": "path/to/your/image1.jpg"
+      },
+      "tools": ["blender", "photoshop", "substance"],
+      "monthsAgo": 2,
+      "links": {
+        "twitter": "https://twitter.com/",
+        "artstation": "https://www.artstation.com/"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Environment Design",
+      "description": "Low-poly environment with optimized assets for real-time rendering in game engines. Features modular building system.",
+      "media": {
+        "type": "image",
+        "url": "path/to/your/image2.jpg"
+      },
+      "tools": ["blender", "unity", "substance"],
+      "monthsAgo": 4,
+      "links": {
+        "twitter": "https://twitter.com/",
+        "behance": "https://www.behance.net/"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Product Visualization",
+      "description": "Photorealistic product renders with advanced lighting and materials. Commercial work for tech product launch.",
+      "media": {
+        "type": "video",
+        "url": "path/to/your/video.mp4"
+      },
+      "tools": ["cinema4d", "octane", "aftereffects"],
+      "monthsAgo": 1,
+      "links": {
+        "twitter": "https://twitter.com/",
+        "instagram": "https://www.instagram.com/"
+      }
+    },
+    {
+      "id": 4,
+      "title": "UI/UX Design",
+      "description": "Clean and modern interface design with focus on user experience. Mobile-first approach with dark mode support.",
+      "media": {
+        "type": "image",
+        "url": "path/to/your/image4.jpg"
+      },
+      "tools": ["figma", "photoshop", "illustrator"],
+      "monthsAgo": 3,
+      "links": {
+        "twitter": "https://twitter.com/",
+        "dribbble": "https://dribbble.com/"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Motion Graphics",
+      "description": "Dynamic animations and motion design for brand storytelling. Created for social media campaign.",
+      "media": {
+        "type": "video",
+        "url": "path/to/your/video2.mp4"
+      },
+      "tools": ["aftereffects", "cinema4d", "illustrator"],
+      "monthsAgo": 5,
+      "links": {
+        "twitter": "https://twitter.com/",
+        "youtube": "https://www.youtube.com/"
+      }
+    }
+  ]
+}
