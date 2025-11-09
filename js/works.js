@@ -51,7 +51,7 @@ let worksData = [];
 // JSONデータの読み込み
 async function loadWorksData() {
     try {
-        const response = await fetch('works-data.json');
+        const response = await fetch('../data/works-data.json');
         worksData = (await response.json()).works;
         initializeSlider();
     } catch (error) {

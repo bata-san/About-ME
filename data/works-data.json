@@ -2,8 +2,8 @@
   "works": [
     {
       "id": 1,
-      "title": "3D Character Model",
-      "description": "Stylized character design with detailed textures and rigging for animation. Created for a personal project exploring low-poly art style.",
+      "title": "Test",
+      "description": "テストです",
       "media": {
         "type": "image",
         "url": "path/to/your/image1.jpg"
