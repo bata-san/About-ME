@@ -1,18 +1,56 @@
 {
-  "works": [
+  "projects": [
     {
       "id": 1,
-      "title": "Test",
-      "description": "テストです",
-      "media": {
-        "type": "image",
-        "url": "../img/G5TD1C9bIAIPBKl.jpg"
-      },
-      "tools": ["blender", "photoshop", "substance"],
-      "monthsAgo": 2,
-      "links": {
-        "twitter": "https://x.com/butter91138/status/1987428663214891242/photo/1"
-      }
+      "title": "Cyberpunk City Environment",
+      "status": "in-progress",
+      "progress": 75,
+      "lastUpdated": "2025-11-20",
+      "summary": "Unreal Engine 5を使用したサイバーパンク風の都市環境制作プロジェクト。現在はライティングとポストプロセスの調整段階。",
+      "content": "<p>メインの建物モデルの配置が完了し、ネオンサインやホログラム広告のアセットを追加中。Naniteを使用した高詳細なメッシュと、Lumenによるリアルタイムグローバルイルミネーションを活用しています。</p><h3>今後の予定</h3><ul><li>路地のディテールアップ</li><li>雨のエフェクト追加</li><li>パフォーマンス最適化</li></ul>",
+      "tags": ["UE5", "3D Environment", "Cyberpunk"],
+      "thumbnail": "img/G5TD1C9bIAIPBKl.jpg",
+      "links": [
+        { "label": "Twitter Update", "url": "https://x.com/butter91138/status/1987428663214891242" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Portfolio Website Renewal",
+      "status": "completed",
+      "progress": 100,
+      "lastUpdated": "2025-11-22",
+      "summary": "自身のポートフォリオサイトをモダンなデザインと技術でリニューアル。",
+      "content": "<p>HTML5, CSS3, Vanilla JSを使用して、シンプルかつ高速なポートフォリオサイトを構築しました。ブログ形式のプロジェクト管理機能を追加し、日々の進捗を発信しやすくしました。</p>",
+      "tags": ["Web Design", "Frontend", "Portfolio"],
+      "thumbnail": "",
+      "links": [
+        { "label": "GitHub Repo", "url": "https://github.com/bata-san" }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Character Modeling Practice",
+      "status": "on-hold",
+      "progress": 30,
+      "lastUpdated": "2025-10-15",
+      "summary": "Blenderを使用したオリジナルキャラクターのモデリング練習。",
+      "content": "<p>ベースメッシュの作成まで完了。トポロジーの勉強のために一時中断し、解剖学の学習を進めています。</p>",
+      "tags": ["Blender", "Character Art", "Study"],
+      "thumbnail": "",
+      "links": []
+    },
+    {
+      "id": 4,
+      "title": "Indie Game UI Kit",
+      "status": "planning",
+      "progress": 10,
+      "lastUpdated": "2025-11-01",
+      "summary": "インディーゲーム開発者向けの汎用UIキットの制作企画。",
+      "content": "<p>ファンタジーRPG向けのUI素材セットを構想中。Figmaでラフデザインを作成し、UnityのUI Toolkitに対応させる予定です。</p>",
+      "tags": ["UI Design", "Figma", "Game Assets"],
+      "thumbnail": "",
+      "links": []
     }
   ]
 }

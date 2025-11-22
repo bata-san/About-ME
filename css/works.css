@@ -94,119 +94,116 @@ body {
 .works-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 16px;
     padding-bottom: 60px;
 }
 
 .work-item {
     background: var(--bg-secondary);
-    border-radius: 16px;
-    padding: 32px;
-    box-shadow: 0 0 0 1px var(--border-color), 0 2px 8px var(--shadow);
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
     transition: var(--transition-base);
-    animation: fadeIn 0.5s ease-out forwards;
-    opacity: 0;
-    transform: translateY(20px);
-    position: relative;
     overflow: hidden;
 }
 
 .work-item:hover {
-    box-shadow: 0 0 0 1px var(--border-color), 0 8px 24px var(--shadow);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--text-secondary);
+}
+
+.work-item.active {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--text-primary);
 }
 
 /* Status Badge - Grayscale */
 .work-status {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    padding: 4px 12px;
-    border-radius: 99px;
-    font-size: 11px;
+    position: static;
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    background: var(--bg-primary);
-    border: 1px solid var(--text-primary);
-    color: var(--text-primary);
-    z-index: 2;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    margin-left: 12px;
+    white-space: nowrap;
 }
 
 .status-in-progress {
-    background: var(--text-primary);
-    color: var(--bg-primary);
     border-color: var(--text-primary);
+    color: var(--text-primary);
 }
 
 .status-completed {
-    background: transparent;
-    color: var(--text-primary);
-    border-color: var(--border-color);
     text-decoration: line-through;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 .status-planning {
-    background: transparent;
-    color: var(--text-primary);
     border-style: dashed;
-    border-color: var(--text-secondary);
 }
 
 /* Content Layout */
 .work-header {
-    margin-bottom: 0; /* Removed margin for accordion */
-    padding-right: 100px;
+    padding: 16px 24px;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     position: relative;
+    min-height: 56px;
 }
 
 /* Accordion Indicator */
 .work-header::after {
     content: '+';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
+    margin-left: auto;
+    font-size: 20px;
     font-weight: 300;
     color: var(--text-secondary);
     transition: transform 0.3s ease;
+    padding-left: 16px;
 }
 
 .work-item.active .work-header::after {
-    transform: translateY(-50%) rotate(45deg);
+    transform: rotate(45deg);
 }
 
 .work-date {
     font-size: 12px;
     color: var(--text-secondary);
-    margin-bottom: 8px;
-    display: block;
+    margin: 0 16px 0 auto;
     font-family: 'Inter', sans-serif;
-    letter-spacing: 0.02em;
+    white-space: nowrap;
 }
 
 .work-title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
     letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
 }
 
 /* Progress Bar - Grayscale */
 .work-progress-container {
-    margin: 24px 0;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    margin: 0 24px 24px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-.work-item:hover .work-progress-container {
+.work-item.active .work-progress-container {
     opacity: 1;
+    height: auto;
 }
 
 .progress-label {
@@ -237,33 +234,35 @@ body {
 .work-body {
     color: var(--text-secondary);
     line-height: 1.7;
-    margin-bottom: 0;
+    margin: 0;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0 24px;
 }
 
 .work-item.active .work-body {
-    max-height: 1000px; /* Arbitrary large height */
+    max-height: 1000px;
     opacity: 1;
-    margin-top: 24px;
-    margin-bottom: 24px;
+    padding-bottom: 24px;
 }
 
 .work-summary {
-    font-size: 15px;
-    margin-bottom: 24px;
+    font-size: 14px;
+    margin-bottom: 20px;
     color: var(--text-primary);
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
 }
 
 .work-details {
-    font-size: 14px;
-    background: transparent;
-    padding: 0;
-    border-radius: 0;
-    border-left: 1px solid var(--border-color);
-    padding-left: 24px;
+    font-size: 13px;
+    background: var(--bg-primary);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
 }
 
 .work-details h3 {

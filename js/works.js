@@ -1,3 +1,4 @@
+import { initTheme, toggleTheme } from './utils.js';
 
 // State
 let projectsData = [];
@@ -5,9 +6,18 @@ let currentFilter = 'all';
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+    setupThemeToggle();
     loadWorksData();
     setupFilters();
 });
+
+function setupThemeToggle() {
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleTheme);
+    }
+}
 
 // Load Data
 async function loadWorksData() {
