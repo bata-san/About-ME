@@ -1,76 +1,79 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Butter - Designer & 3D Modeler. Visual Design, 3D Modeling, and more.">
     <title>Portfolio - Designer & 3D Modeler</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/works.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
+    <main class="layout container">
+        <!-- Profile Card -->
+        <article class="card">
+            <header class="card-header">
                 <div class="avatar">
-                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="40" cy="40" r="40" fill="#1a1a1a"/>
-                        <circle cx="40" cy="32" r="12" fill="#f5f5f5"/>
-                        <path d="M20 65C20 50 28 45 40 45C52 45 60 50 60 65" fill="#f5f5f5"/>
+                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="40" cy="40" r="40" fill="#1a1a1a" />
+                        <circle cx="40" cy="32" r="12" fill="#f5f5f5" />
+                        <path d="M20 65C20 50 28 45 40 45C52 45 60 50 60 65" fill="#f5f5f5" />
                     </svg>
                 </div>
                 <h1 class="name">ばたー/Butter</h1>
                 <p class="role">Designer / 3DCG Modeler</p>
-            </div>
-            
-            <div class="divider"></div>
-            
+            </header>
+            <hr class="divider" />
             <div class="card-content">
-                <div class="info-section">
+                <dl class="info-section">
                     <div class="info-item">
-                        <span class="label">Focus</span>
-                        <span class="value">Visual Design & 3D Modeling</span>
+                        <dt class="label">Focus</dt>
+                        <dd class="value">Visual Design & 3D Modeling</dd>
                     </div>
                     <div class="info-item">
-                        <span class="label">Tools</span>
-                        <span class="value">Blender, Affinity, Figma, VScode</span>
+                        <dt class="label">Tools</dt>
+                        <dd class="value">Blender, Affinity, Figma, VScode</dd>
                     </div>
                     <div class="info-item">
-                        <span class="label">Status</span>
-                        <span class="value">
-                            <span class="status-indicator"></span>
-                            Im online XD
-                        </span>
+                        <dt class="label">Status</dt>
+                        <dd class="value"><span class="status-indicator" aria-label="Online"></span> Im online XD</dd>
                     </div>
-                </div>
+                </dl>
             </div>
-            
-            <div class="divider"></div>
-            
-            <div class="card-footer">
-                <a href="pages/works.html" class="link-button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
-                        <path d="M8 2v4"></path>
-                        <path d="M16 2v4"></path>
-                        <path d="M2 10h20"></path>
+            <hr class="divider" />
+            <footer class="card-footer">
+                <a href="works.html" class="link-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="2" ry="2" />
+                        <path d="M8 2v4" />
+                        <path d="M16 2v4" />
+                        <path d="M2 10h20" />
                     </svg>
                     Works
                 </a>
-                <a href="https://github.com/bata-san" target="_blank" class="link-button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                <a href="https://github.com/bata-san" target="_blank" rel="noopener noreferrer" class="link-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                     </svg>
                     GitHub
                 </a>
-                <a href="https://twitter.com/butter91138" target="_blank" class="link-button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                <a href="https://twitter.com/butter91138" target="_blank" rel="noopener noreferrer" class="link-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path
+                            d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
                     </svg>
                     Twitter
                 </a>
-            </div>
-        </div>
-    </div>
-    
-    <script src="js/script.js"></script>
+            </footer>
+        </article>
+    </main>
+    <script type="module" src="js/main.js" defer></script>
 </body>
+
 </html>
