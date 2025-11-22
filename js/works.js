@@ -91,6 +91,10 @@ function createWorkItem(project) {
     const statusClass = `status-${project.status}`;
     const statusText = project.status.replace('-', ' ');
     
+    // Main Category (First Tag)
+    const mainCategory = project.tags && project.tags.length > 0 ? project.tags[0] : '';
+    const categoryHtml = mainCategory ? `<span class="work-category">${mainCategory}</span>` : '';
+    
     // Progress Bar
     const progressHtml = `
         <div class="work-progress-container">
@@ -105,33 +109,89 @@ function createWorkItem(project) {
     `;
 
     // Tags
-    const tagsHtml = project.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+    const tagsHtml = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
 
-    // Thumbnail
-    let thumbnailHtml = '';
-    if (project.thumbnail) {
-        thumbnailHtml = `
-            <div class="work-thumbnail-container">
-                <img src="${project.thumbnail}" alt="${project.title}" class="work-thumbnail" loading="lazy">
-            </div>
-        `;
+    // Tasks
+    let tasksHtml = '';
+    if (project.tasks && Array.isArray(project.tasks) && project.tasks.length > 0) {
+        tasksHtml = '<div class="work-tasks">';
+        tasksHtml += '<h4 class="tasks-title">Progress Details</h4>';
+        tasksHtml += '<ul class="task-list">';
+        project.tasks.forEach(task => {
+            const statusClass = task.completed ? 'task-completed' : 'task-pending';
+            const icon = task.completed ? '✓' : '○';
+            tasksHtml += `
+                <li class="task-item ${statusClass}">
+                    <span class="task-icon">${icon}</span>
+                    <span class="task-name">${task.name}</span>
+                </li>
+            `;
+        });
+        tasksHtml += '</ul></div>';
     }
 
-    // Links
+    // Gallery (Thumbnail + Images + Twitter Embeds)
+    let galleryItems = [];
+
+    // 1. Main Thumbnail
+    if (project.thumbnail) {
+        galleryItems.push(`
+            <div class="gallery-item">
+                <img src="${project.thumbnail}" alt="${project.title}" loading="lazy">
+            </div>
+        `);
+    }
+
+    // 2. Process Links (Images & Twitter)
     let linksHtml = '';
-    if (project.links && Object.keys(project.links).length > 0) {
-        linksHtml = '<div class="work-links">';
-        for (const [key, url] of Object.entries(project.links)) {
-            if (url) {
+    if (project.links && Array.isArray(project.links) && project.links.length > 0) {
+        const otherLinks = [];
+        
+        project.links.forEach(link => {
+            if (!link.url) return;
+
+            // Check for Twitter/X URL
+            const isTwitter = link.url.match(/https?:\/\/(twitter\.com|x\.com)\/[a-zA-Z0-9_]+\/status\/\d+/);
+            
+            if (link.type === 'image') {
+                galleryItems.push(`
+                    <div class="gallery-item">
+                        <img src="${link.url}" alt="${link.label || 'Image'}" loading="lazy">
+                    </div>
+                `);
+            } else if (isTwitter) {
+                // Convert to Twitter Embed
+                // Replace x.com with twitter.com for compatibility with widgets.js
+                const tweetUrl = link.url.replace('x.com', 'twitter.com');
+                galleryItems.push(`
+                    <div class="gallery-item gallery-embed">
+                        <blockquote class="twitter-tweet" data-media-max-width="560" data-theme="dark">
+                            <a href="${tweetUrl}"></a>
+                        </blockquote>
+                    </div>
+                `);
+            } else {
+                otherLinks.push(link);
+            }
+        });
+
+        // Build Links HTML for remaining links
+        if (otherLinks.length > 0) {
+            linksHtml = '<div class="work-links">';
+            otherLinks.forEach(link => {
                 linksHtml += `
-                    <a href="${url}" class="work-link" target="_blank" rel="noopener noreferrer">
-                        ${getLinkIcon(key)} ${capitalize(key)}
+                    <a href="${link.url}" class="work-link" target="_blank" rel="noopener noreferrer">
+                        ${getLinkIcon(link.label)} ${link.label}
                     </a>
                 `;
-            }
+            });
+            linksHtml += '</div>';
         }
-        linksHtml += '</div>';
     }
+
+    const galleryHtml = galleryItems.length > 0 
+        ? `<div class="work-gallery">${galleryItems.join('')}</div>` 
+        : '';
 
     // Generate unique ID for accessibility
     const projectId = `project-${project.id || Math.random().toString(36).substr(2, 9)}`;
@@ -139,8 +199,6 @@ function createWorkItem(project) {
     const contentId = `${projectId}-content`;
 
     article.innerHTML = `
-        <div class="work-status ${statusClass}">${statusText}</div>
-        
         <header 
             class="work-header" 
             id="${headerId}"
@@ -150,8 +208,14 @@ function createWorkItem(project) {
             tabindex="0"
             onclick="toggleAccordion(this)"
             onkeydown="handleKeydown(event, this)">
-            <span class="work-date">Last updated: ${project.lastUpdated}</span>
-            <h2 class="work-title">${project.title}</h2>
+            <div class="header-content">
+                <h2 class="work-title">${project.title}</h2>
+                <div class="header-meta">
+                    ${categoryHtml}
+                    <div class="work-status ${statusClass}">${statusText}</div>
+                </div>
+            </div>
+            <span class="work-date">${project.lastUpdated}</span>
         </header>
 
         ${progressHtml}
@@ -161,8 +225,9 @@ function createWorkItem(project) {
             id="${contentId}" 
             role="region" 
             aria-labelledby="${headerId}">
-            ${thumbnailHtml}
+            ${galleryHtml}
             <div class="work-summary">${project.summary}</div>
+            ${tasksHtml}
             <div class="work-details">${project.content}</div>
             
             <div class="work-tags">
@@ -174,6 +239,20 @@ function createWorkItem(project) {
     `;
 
     return article;
+}
+
+// Load Twitter Widget Script if needed
+function loadTwitterWidget() {
+    if (!document.getElementById('twitter-wjs')) {
+        const script = document.createElement('script');
+        script.id = 'twitter-wjs';
+        script.src = "https://platform.twitter.com/widgets.js";
+        script.async = true;
+        document.body.appendChild(script);
+    } else if (window.twttr) {
+        // If script already loaded, re-scan for new widgets
+        window.twttr.widgets.load();
+    }
 }
 
 // Accordion Toggle
@@ -192,6 +271,8 @@ window.toggleAccordion = function(header) {
     if (!wasActive) {
         item.classList.add('active');
         header.setAttribute('aria-expanded', 'true');
+        // Load Twitter widgets when opening
+        setTimeout(loadTwitterWidget, 100);
     } else {
         header.setAttribute('aria-expanded', 'false');
     }
@@ -206,14 +287,15 @@ window.handleKeydown = function(event, header) {
 };
 
 // Helper: Get icon for links (using simple text or emoji for now, can be SVG)
-function getLinkIcon(type) {
-    const icons = {
-        github: '📦',
-        demo: '🚀',
-        design: '🎨',
-        docs: '📄'
-    };
-    return icons[type] || '🔗';
+function getLinkIcon(label) {
+    if (!label) return '🔗';
+    const lowerLabel = label.toLowerCase();
+    if (lowerLabel.includes('github') || lowerLabel.includes('repo')) return '📦';
+    if (lowerLabel.includes('demo') || lowerLabel.includes('site') || lowerLabel.includes('web')) return '🚀';
+    if (lowerLabel.includes('design') || lowerLabel.includes('figma')) return '🎨';
+    if (lowerLabel.includes('twitter') || lowerLabel.includes('x.com')) return '🐦';
+    if (lowerLabel.includes('youtube') || lowerLabel.includes('video')) return '📺';
+    return '🔗';
 }
 
 // Helper: Capitalize first letter

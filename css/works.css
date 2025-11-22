@@ -15,7 +15,6 @@ body {
     padding: 40px 20px;
     height: auto;
     min-height: 100vh;
-    overflow-y: auto;
 }
 
 .page-header {
@@ -123,11 +122,10 @@ body {
     margin: 8px 0;
 }
 
-/* Status Badge - Grayscale */
+/* Status Badge - Colored */
 .work-status {
-    position: static;
     display: inline-flex;
-    padding: 2px 8px;
+    padding: 1px 6px;
     border-radius: 4px;
     font-size: 10px;
     font-weight: 600;
@@ -136,70 +134,118 @@ body {
     background: transparent;
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    margin-left: 12px;
     white-space: nowrap;
+    height: fit-content;
 }
 
 .status-in-progress {
-    border-color: var(--text-primary);
-    color: var(--text-primary);
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
 }
 
 .status-completed {
-    text-decoration: line-through;
-    opacity: 0.5;
+    border-color: #10b981;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+    text-decoration: none;
+    opacity: 1;
 }
 
 .status-planning {
-    border-style: dashed;
+    border-color: #f59e0b;
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+    border-style: solid;
+}
+
+.status-on-hold {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+/* Category Badge */
+.work-category {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    font-weight: 500;
+    display: inline-block;
 }
 
 /* Content Layout */
 .work-header {
-    padding: 16px 24px;
+    padding: 8px 12px;
     cursor: pointer;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
     position: relative;
-    min-height: 56px;
+    min-height: 44px;
+    gap: 8px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.header-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 /* Accordion Indicator */
 .work-header::after {
     content: '+';
-    margin-left: auto;
-    font-size: 20px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
     font-weight: 300;
     color: var(--text-secondary);
     transition: transform 0.3s ease;
-    padding-left: 16px;
 }
 
 .work-item.active .work-header::after {
-    transform: rotate(45deg);
+    transform: translateY(-50%) rotate(45deg);
 }
 
 .work-date {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-secondary);
-    margin: 0 16px 0 auto;
     font-family: 'Inter', sans-serif;
     white-space: nowrap;
+    margin-right: 20px; /* Space for icon */
 }
 
 .work-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
-    letter-spacing: -0.01em;
-    display: flex;
-    align-items: center;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 0 1 auto; /* Allow shrinking but don't force it to 0 */
 }
 
 /* Progress Bar - Grayscale */
 .work-progress-container {
-    margin: 0 24px 24px;
+    margin: 0 12px 12px;
     opacity: 0;
     height: 0;
     overflow: hidden;
@@ -339,6 +385,30 @@ body {
     gap: 16px;
     padding-top: 20px;
     border-top: 1px solid var(--border-color);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.work-link-image {
+    display: inline-flex;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    vertical-align: middle;
+    background: var(--bg-primary);
+}
+
+.work-link-image:hover {
+    transform: scale(1.05);
+    border-color: var(--text-primary);
+}
+
+.work-link-image img {
+    display: block;
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 
 .work-link {
@@ -368,6 +438,64 @@ body {
     color: #ff4d4f;
 }
 
+/* Tasks List */
+.work-tasks {
+    margin-bottom: 24px;
+    background: var(--bg-primary);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.tasks-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    padding: 4px 0;
+}
+
+.task-icon {
+    font-weight: bold;
+    width: 16px;
+    text-align: center;
+}
+
+.task-completed {
+    color: var(--text-secondary);
+    text-decoration: line-through;
+}
+
+.task-completed .task-icon {
+    color: #10b981; /* Green check */
+    text-decoration: none;
+}
+
+.task-pending {
+    color: var(--text-primary);
+}
+
+.task-pending .task-icon {
+    color: var(--text-secondary);
+}
+
 /* Animation */
 @keyframes fadeIn {
     from {
@@ -383,17 +511,60 @@ body {
 /* Responsive */
 @media (max-width: 600px) {
     .work-header {
-        padding-right: 0;
-        margin-top: 30px;
+        padding: 8px 12px;
+        min-height: 40px;
     }
     
-    .work-status {
-        top: 20px;
-        left: 20px;
-        right: auto;
+    .work-date {
+        display: none; /* Hide date on mobile for slimness */
     }
     
     .work-item {
-        padding: 24px;
+        padding: 0;
     }
+
+    .work-title {
+        font-size: 13px;
+    }
+
+    .work-status {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+}
+
+/* Gallery */
+.work-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 400px;
+}
+
+.gallery-embed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    background: #000;
+}
+
+/* Ensure Twitter embeds are responsive */
+.twitter-tweet {
+    margin: 0 !important;
 }

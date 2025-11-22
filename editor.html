@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works Data Editor</title>
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Projects</h2>
+            <button class="btn btn-primary" id="add-btn">+ New</button>
+        </div>
+        <div class="project-list" id="project-list">
+            <!-- List items will be injected here -->
+        </div>
+        <div style="padding: 16px; border-top: 1px solid var(--border-color);">
+            <button class="btn btn-success" style="width: 100%" id="load-btn">Load from JSON</button>
+        </div>
+    </aside>
+
+    <!-- Main Editor -->
+    <main class="main-editor">
+        <div class="editor-toolbar">
+            <h1 id="editor-title">Edit Project</h1>
+            <div class="actions">
+                <button class="btn btn-danger" id="delete-btn">Delete</button>
+                <button class="btn btn-primary" id="save-btn">Save Changes</button>
+                <button class="btn btn-success" id="save-file-btn" title="Save directly to file (Chrome/Edge only)">Save to File</button>
+            </div>
+        </div>
+
+        <div class="editor-content">
+            <!-- Form Column -->
+            <div class="form-column">
+                <form id="project-form">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>ID</label>
+                            <input type="number" class="form-control" name="id" readonly>
+                        </div>
+                        <div class="col form-group">
+                            <label>Status</label>
+                            <select class="form-control" name="status">
+                                <option value="planning">Planning</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="on-hold">On Hold</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label>Progress (%)</label>
+                            <input type="number" class="form-control" name="progress" min="0" max="100">
+                        </div>
+                        <div class="col form-group">
+                            <label>Last Updated</label>
+                            <input type="date" class="form-control" name="lastUpdated">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tasks / Milestones</label>
+                        <div class="links-container" id="tasks-container">
+                            <!-- Dynamic tasks -->
+                        </div>
+                        <button type="button" class="btn btn-primary" style="margin-top: 8px; font-size: 11px;" id="add-task-btn">+ Add Task</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tags (comma separated)</label>
+                        <input type="text" class="form-control" name="tags" placeholder="UE5, Design, Web...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Thumbnail Path</label>
+                        <input type="text" class="form-control" name="thumbnail" placeholder="img/example.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Summary</label>
+                        <textarea class="form-control" name="summary" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Content (HTML)</label>
+                        <textarea class="form-control" name="content" rows="6"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Links</label>
+                        <div class="links-container" id="links-container">
+                            <!-- Dynamic links -->
+                        </div>
+                        <button type="button" class="btn btn-primary" style="margin-top: 8px; font-size: 11px;" id="add-link-btn">+ Add Link</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Preview/JSON Column -->
+            <div class="json-preview-panel">
+                <h3>Full JSON Output</h3>
+                <textarea id="json-output" readonly></textarea>
+                <button class="btn btn-success" id="copy-json-btn" style="margin-top: 12px;">Copy JSON to Clipboard</button>
+                <p style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;">
+                    Copy this and paste it into <code>data/works-data.json</code>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/editor.js"></script>
+</body>
+</html>

@@ -21,7 +21,7 @@
     /* Nothing Essence */
     --dot-color: rgba(0, 0, 0, 0.05);
     --focus-ring: 2px dashed var(--text-primary);
-    --nothing-red: #D71921;
+    --nothing-red: #24bd16;
 }
 
 [data-theme="dark"] {
@@ -44,6 +44,10 @@
 /* ==========================================================================
    Reset & Base Styles
    ========================================================================== */
+html {
+    scrollbar-gutter: stable;
+}
+
 * {
     margin: 0;
     padding: 0;

@@ -2,16 +2,42 @@
   "projects": [
     {
       "id": 1,
-      "title": "Cyberpunk City Environment",
+      "title": "自作メカゲー作る",
       "status": "in-progress",
-      "progress": 75,
+      "progress": 20,
       "lastUpdated": "2025-11-20",
+      "tags": [
+        "UE5",
+        "Blender",
+        "Game dev"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G4gYtVUb0AAUD6j?format=png&name=small",
       "summary": "Unreal Engine 5を使用したサイバーパンク風の都市環境制作プロジェクト。現在はライティングとポストプロセスの調整段階。",
-      "content": "<p>メインの建物モデルの配置が完了し、ネオンサインやホログラム広告のアセットを追加中。Naniteを使用した高詳細なメッシュと、Lumenによるリアルタイムグローバルイルミネーションを活用しています。</p><h3>今後の予定</h3><ul><li>路地のディテールアップ</li><li>雨のエフェクト追加</li><li>パフォーマンス最適化</li></ul>",
-      "tags": ["UE5", "3D Environment", "Cyberpunk"],
-      "thumbnail": "img/G5TD1C9bIAIPBKl.jpg",
+      "content": "",
+      "tasks": [
+        {
+          "name": "UE内で基本のプレイヤー動作プログラム作る",
+          "completed": true
+        },
+        {
+          "name": "Blenderでメカモデル作る",
+          "completed": true
+        },
+        {
+          "name": "リグをUEで作成、プロシージャルにアニメートさせる",
+          "completed": false
+        },
+        {
+          "name": "ブースター噴射炎作る",
+          "completed": false
+        }
+      ],
       "links": [
-        { "label": "Twitter Update", "url": "https://x.com/butter91138/status/1987428663214891242" }
+        {
+          "label": "今の進捗",
+          "url": "https://x.com/butter91138/status/1991505321387520176?s=20",
+          "type": "link"
+        }
       ]
     },
     {
@@ -22,35 +48,148 @@
       "lastUpdated": "2025-11-22",
       "summary": "自分のwebサイトをHTML5,CSS3,Vanilla JSで作成しました。",
       "content": "<p>HTML5, CSS3, Vanilla JSを使用して、シンプルかつ高速なポートフォリオサイトを構築しました。ブログ形式のプロジェクト管理機能を追加し、日々の進捗を発信しやすくしました。</p>",
-      "tags": ["Web Design", "Frontend", "Portfolio"],
+      "tags": [
+        "Web Design",
+        "Frontend",
+        "Portfolio"
+      ],
       "thumbnail": "",
       "links": [
-        { "label": "GitHub Repo", "url": "https://github.com/bata-san" }
+        {
+          "label": "GitHub Repo",
+          "url": "https://github.com/bata-san/About-ME"
+        }
       ]
     },
     {
       "id": 3,
-      "title": "Character Modeling Practice",
-      "status": "on-hold",
-      "progress": 30,
-      "lastUpdated": "2025-10-15",
-      "summary": "Blenderを使用したオリジナルキャラクターのモデリング練習。",
-      "content": "<p>ベースメッシュの作成まで完了。トポロジーの勉強のために一時中断し、解剖学の学習を進めています。</p>",
-      "tags": ["Blender", "Character Art", "Study"],
-      "thumbnail": "",
+      "title": "b3d祭(1)",
+      "status": "completed",
+      "progress": 100,
+      "lastUpdated": "2025-09-14",
+      "tags": [
+        "Blender",
+        "Mech",
+        "contest"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G0264YwaUAEF57c?format=jpg&name=4096x4096",
+      "summary": "Blenderを使用したコンテストに応募",
+      "content": "<p>残念ながらなんの賞にも引っかからなかったけど、ボリュームの扱い方など、学べるものはたくさんあった</p>",
+      "tasks": [],
       "links": []
     },
     {
       "id": 4,
-      "title": "Indie Game UI Kit",
-      "status": "planning",
-      "progress": 10,
-      "lastUpdated": "2025-11-01",
-      "summary": "インディーゲーム開発者向けの汎用UIキットの制作企画。",
-      "content": "<p>ファンタジーRPG向けのUI素材セットを構想中。Figmaでラフデザインを作成し、UnityのUI Toolkitに対応させる予定です。</p>",
-      "tags": ["UI Design", "Figma", "Game Assets"],
+      "title": "CG部ネクストスターズ",
+      "status": "completed",
+      "progress": 100,
+      "lastUpdated": "2025-10-26",
+      "tags": [
+        "Blender",
+        "mech",
+        "Contest"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G3EUGd6a4AAPgqN?format=jpg&name=large",
+      "summary": "CG部のネクストスターズコンテストに応募",
+      "content": "<p>BlenderからAEへのワークフローを知った。グリーンバック合成を知った。メカモデルのアーマチュアの入れ方を確立した</p>",
+      "tasks": [],
+      "links": [
+        {
+          "label": "作品",
+          "url": "https://x.com/butter91138/status/1979884301081842066",
+          "type": "link"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "甲冑のようなメカを作成",
+      "status": "on-hold",
+      "progress": 50,
+      "lastUpdated": "2025-11-22",
+      "tags": [
+        "Blender",
+        "Mech"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G5EiYhmbEAAs0_E?format=png&name=900x900",
+      "summary": "甲冑のような曲線のメカを作成、そして凍結",
+      "content": "<p>今の自分の技量だとこれをかっこよく見せることができないため<br>具体的にはサイズ感の指定とイメージの曖昧さが原因。</P>",
+      "tasks": [],
+      "links": [
+        {
+          "label": "動画",
+          "url": "https://x.com/butter91138/status/1987884518163054716",
+          "type": "link"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "可変機作成",
+      "status": "on-hold",
+      "progress": 0,
+      "lastUpdated": "2025-11-14",
+      "tags": [
+        "Blender",
+        "Mech"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G6W5PazbQAAsZ-2?format=png&name=900x900",
+      "summary": "可変機を作成、しかし変形のアーマチュアで挫折",
+      "content": "",
+      "tasks": [],
+      "links": [
+        {
+          "label": "動画",
+          "url": "https://x.com/butter91138/status/1990046345391157429?s=20",
+          "type": "link"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "PLINY(タスク管理アプリ)作成",
+      "status": "completed",
+      "progress": 0,
+      "lastUpdated": "2025-06-30",
+      "tags": [
+        "Web",
+        "HTML",
+        "CSS",
+        "JS"
+      ],
       "thumbnail": "",
-      "links": []
+      "summary": "タスク管理をバニラのJSで作成。AIを使用してコーディングしました",
+      "content": "バイブコーディングに頼り切りになってしまうと何もできない人間になってしまう(偏見)なので、ちゃんとプログラムしてものを作らなきゃと思いました",
+      "tasks": [],
+      "links": [
+        {
+          "label": "アプリ",
+          "url": "https://pliny-beta.youguitest.workers.dev/",
+          "type": "link"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "コミケ自作ゲーム",
+      "status": "completed",
+      "progress": 0,
+      "lastUpdated": "2025-11-22",
+      "tags": [
+        "Game dev",
+        "Mech"
+      ],
+      "thumbnail": "",
+      "summary": "メカゲーを自作しました。",
+      "content": "コーディングをほぼAIに頼ってしまったから自分でも何をしているかよくわかっておらず、Worksに載せられるギリギリの制作物。",
+      "tasks": [],
+      "links": [
+        {
+          "label": "動画",
+          "url": "https://x.com/butter91138/status/1956351897670975882?s=20",
+          "type": "link"
+        }
+      ]
     }
   ]
 }
