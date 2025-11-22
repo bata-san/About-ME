@@ -116,102 +116,154 @@ body {
     transform: translateY(-2px);
 }
 
-/* Status Badge */
+/* Status Badge - Grayscale */
 .work-status {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 24px;
+    right: 24px;
     padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 12px;
+    border-radius: 99px;
+    font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
+    background: var(--bg-primary);
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+    z-index: 2;
 }
 
 .status-in-progress {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-    border: 1px solid rgba(59, 130, 246, 0.2);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    border-color: var(--text-primary);
 }
 
 .status-completed {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    text-decoration: line-through;
+    opacity: 0.6;
 }
 
 .status-planning {
-    background: rgba(245, 158, 11, 0.1);
-    color: #f59e0b;
-    border: 1px solid rgba(245, 158, 11, 0.2);
+    background: transparent;
+    color: var(--text-primary);
+    border-style: dashed;
+    border-color: var(--text-secondary);
 }
 
 /* Content Layout */
 .work-header {
-    margin-bottom: 20px;
-    padding-right: 100px; /* Space for status badge */
+    margin-bottom: 0; /* Removed margin for accordion */
+    padding-right: 100px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Accordion Indicator */
+.work-header::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.work-item.active .work-header::after {
+    transform: translateY(-50%) rotate(45deg);
 }
 
 .work-date {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-secondary);
     margin-bottom: 8px;
     display: block;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
 }
 
 .work-title {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 600;
     color: var(--text-primary);
     margin: 0;
+    letter-spacing: -0.01em;
 }
 
-/* Progress Bar */
+/* Progress Bar - Grayscale */
 .work-progress-container {
-    margin: 20px 0;
+    margin: 24px 0;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.work-item:hover .work-progress-container {
+    opacity: 1;
 }
 
 .progress-label {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-secondary);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .progress-bar {
-    height: 6px;
+    height: 2px;
     background: var(--border-color);
-    border-radius: 3px;
+    border-radius: 1px;
     overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
     background: var(--text-primary);
-    border-radius: 3px;
+    border-radius: 1px;
     transition: width 1s ease-out;
 }
 
-/* Body Content */
+/* Body Content - Accordion */
 .work-body {
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
+    margin-bottom: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.work-item.active .work-body {
+    max-height: 1000px; /* Arbitrary large height */
+    opacity: 1;
+    margin-top: 24px;
     margin-bottom: 24px;
 }
 
 .work-summary {
-    font-size: 16px;
-    margin-bottom: 16px;
+    font-size: 15px;
+    margin-bottom: 24px;
+    color: var(--text-primary);
 }
 
 .work-details {
     font-size: 14px;
-    background: var(--bg-primary);
-    padding: 20px;
-    border-radius: 8px;
-    border-left: 3px solid var(--border-color);
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border-left: 1px solid var(--border-color);
+    padding-left: 24px;
 }
 
 .work-details h3 {
