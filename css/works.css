@@ -62,60 +62,65 @@ body {
 /* Filter Section */
 .works-filter {
     display: flex;
-    gap: 12px;
-    margin-bottom: 40px;
+    gap: 8px;
+    margin-bottom: 48px;
     flex-wrap: wrap;
 }
 
 .filter-btn {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
+    background: transparent;
+    border: 1px solid transparent;
     color: var(--text-secondary);
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 6px 16px;
+    border-radius: 99px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     transition: var(--transition-base);
+    letter-spacing: 0.02em;
 }
 
 .filter-btn:hover {
-    border-color: var(--text-primary);
     color: var(--text-primary);
+    background: var(--bg-secondary);
 }
 
 .filter-btn.active {
     background: var(--text-primary);
     color: var(--bg-primary);
     border-color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
 }
 
 /* Works List */
 .works-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding-bottom: 60px;
+    gap: 12px;
+    padding-bottom: 80px;
 }
 
 .work-item {
     background: var(--bg-secondary);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 0;
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
     border: 1px solid var(--border-color);
-    transition: var(--transition-base);
+    transition: all 0.2s ease;
     overflow: hidden;
 }
 
 .work-item:hover {
-    box-shadow: var(--shadow);
     border-color: var(--text-secondary);
+    transform: translateY(-1px);
 }
 
 .work-item.active {
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow);
     border-color: var(--text-primary);
+    transform: translateY(-2px);
+    border-radius: 12px;
+    margin: 8px 0;
 }
 
 /* Status Badge - Grayscale */
