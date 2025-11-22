@@ -123,17 +123,34 @@ function createWorkItem(project) {
         linksHtml += '</div>';
     }
 
+    // Generate unique ID for accessibility
+    const projectId = `project-${project.id || Math.random().toString(36).substr(2, 9)}`;
+    const headerId = `${projectId}-header`;
+    const contentId = `${projectId}-content`;
+
     article.innerHTML = `
         <div class="work-status ${statusClass}">${statusText}</div>
         
-        <header class="work-header" onclick="toggleAccordion(this)">
+        <header 
+            class="work-header" 
+            id="${headerId}"
+            aria-expanded="false" 
+            aria-controls="${contentId}"
+            role="button" 
+            tabindex="0"
+            onclick="toggleAccordion(this)"
+            onkeydown="handleKeydown(event, this)">
             <span class="work-date">Last updated: ${project.lastUpdated}</span>
             <h2 class="work-title">${project.title}</h2>
         </header>
 
         ${progressHtml}
 
-        <div class="work-body">
+        <div 
+            class="work-body" 
+            id="${contentId}" 
+            role="region" 
+            aria-labelledby="${headerId}">
             <div class="work-summary">${project.summary}</div>
             <div class="work-details">${project.content}</div>
             
@@ -153,14 +170,27 @@ window.toggleAccordion = function(header) {
     const item = header.closest('.work-item');
     const wasActive = item.classList.contains('active');
     
-    // Close all other items (optional - remove if you want multiple open)
+    // Close all other items
     document.querySelectorAll('.work-item').forEach(el => {
         el.classList.remove('active');
+        const otherHeader = el.querySelector('.work-header');
+        if (otherHeader) otherHeader.setAttribute('aria-expanded', 'false');
     });
 
     // Toggle current
     if (!wasActive) {
         item.classList.add('active');
+        header.setAttribute('aria-expanded', 'true');
+    } else {
+        header.setAttribute('aria-expanded', 'false');
+    }
+};
+
+// Keyboard accessibility
+window.handleKeydown = function(event, header) {
+    if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleAccordion(header);
     }
 };
 
