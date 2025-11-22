@@ -270,6 +270,28 @@ body {
     margin-bottom: 20px;
 }
 
+/* Thumbnail */
+.work-thumbnail-container {
+    margin-bottom: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+}
+
+.work-thumbnail {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 400px;
+    transition: transform 0.3s ease;
+}
+
+.work-thumbnail:hover {
+    transform: scale(1.02);
+}
+
 .work-details h3 {
     font-size: 16px;
     font-weight: 700;

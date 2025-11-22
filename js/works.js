@@ -107,6 +107,16 @@ function createWorkItem(project) {
     // Tags
     const tagsHtml = project.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
 
+    // Thumbnail
+    let thumbnailHtml = '';
+    if (project.thumbnail) {
+        thumbnailHtml = `
+            <div class="work-thumbnail-container">
+                <img src="${project.thumbnail}" alt="${project.title}" class="work-thumbnail" loading="lazy">
+            </div>
+        `;
+    }
+
     // Links
     let linksHtml = '';
     if (project.links && Object.keys(project.links).length > 0) {
@@ -151,6 +161,7 @@ function createWorkItem(project) {
             id="${contentId}" 
             role="region" 
             aria-labelledby="${headerId}">
+            ${thumbnailHtml}
             <div class="work-summary">${project.summary}</div>
             <div class="work-details">${project.content}</div>
             
