@@ -30,8 +30,8 @@ export function initDecorations() {
             <span class="hud-value" id="hud-res">0000 x 0000</span>
         </div>
         <div class="hud-item bottom-right">
-            <span class="hud-label">VISITS</span>
-            <span class="hud-value" id="hud-visits">000000</span>
+            <span class="hud-label">TIME</span>
+            <span class="hud-value" id="hud-time">00:00:00</span>
         </div>
     `;
     
@@ -91,34 +91,18 @@ export function initDecorations() {
     window.addEventListener('resize', updateRes);
     updateRes(); // Initial check
 
-    // Visit Counter (Decorative)
-    const visitsEl = document.getElementById('hud-visits');
-    if (visitsEl) {
-        // Try to fetch from Cloudflare Pages Function (Stateless)
-        fetch('/api/visits')
-            .then(res => {
-                if (!res.ok) throw new Error('API not available');
-                return res.json();
-            })
-            .then(data => {
-                if (data.count) {
-                    visitsEl.textContent = data.count.toString().padStart(6, '0');
-                }
-            })
-            .catch(() => {
-                // Fallback: Local Simulation (for local dev or if API fails)
-                const STORAGE_KEY = 'portfolio_visit_count';
-                const BASE_COUNT = 4096;
-                
-                let count = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-                
-                // Increment on every load to show activity
-                count++;
-                localStorage.setItem(STORAGE_KEY, count.toString());
-
-                const displayCount = (BASE_COUNT + count).toString().padStart(6, '0');
-                visitsEl.textContent = displayCount;
-            });
+    // Time Display
+    const timeEl = document.getElementById('hud-time');
+    if (timeEl) {
+        const updateTime = () => {
+            const now = new Date();
+            const h = now.getHours().toString().padStart(2, '0');
+            const m = now.getMinutes().toString().padStart(2, '0');
+            const s = now.getSeconds().toString().padStart(2, '0');
+            timeEl.textContent = `${h}:${m}:${s}`;
+        };
+        setInterval(updateTime, 1000);
+        updateTime();
     }
 
     // Easter Egg: Konami Code
