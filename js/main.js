@@ -28,6 +28,7 @@ import { initDecorations } from './decorations.js';
         initAge();
         initCustomCursor();
         initDecorations();
+        initHoloEffect();
         setupAnimations();
         setupRippleEffect();
         setupThemeToggle();

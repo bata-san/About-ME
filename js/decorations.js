@@ -94,16 +94,103 @@ export function initDecorations() {
     // Visit Counter (Decorative)
     const visitsEl = document.getElementById('hud-visits');
     if (visitsEl) {
-        const STORAGE_KEY = 'portfolio_visit_count';
-        const BASE_COUNT = 4096;
-        
-        let count = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-        
-        // Increment on every load to show activity
-        count++;
-        localStorage.setItem(STORAGE_KEY, count.toString());
+        // Try to fetch from Cloudflare Pages Function (Stateless)
+        fetch('/api/visits')
+            .then(res => {
+                if (!res.ok) throw new Error('API not available');
+                return res.json();
+            })
+            .then(data => {
+                if (data.count) {
+                    visitsEl.textContent = data.count.toString().padStart(6, '0');
+                }
+            })
+            .catch(() => {
+                // Fallback: Local Simulation (for local dev or if API fails)
+                const STORAGE_KEY = 'portfolio_visit_count';
+                const BASE_COUNT = 4096;
+                
+                let count = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+                
+                // Increment on every load to show activity
+                count++;
+                localStorage.setItem(STORAGE_KEY, count.toString());
 
-        const displayCount = (BASE_COUNT + count).toString().padStart(6, '0');
-        visitsEl.textContent = displayCount;
+                const displayCount = (BASE_COUNT + count).toString().padStart(6, '0');
+                visitsEl.textContent = displayCount;
+            });
+    }
+
+    // Easter Egg: Konami Code
+    // Up, Up, Down, Down, Left, Right, Left, Right, B, A
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === konamiCode[konamiIndex].toLowerCase()) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                activateEasterEgg();
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+
+    function activateEasterEgg() {
+        // Visual feedback
+        document.documentElement.style.setProperty('--text-primary', '#00ff00');
+        document.documentElement.style.setProperty('--bg-primary', '#000000');
+        document.documentElement.style.setProperty('--bg-secondary', '#0a0a0a');
+        document.documentElement.style.setProperty('--signal-red', '#00ff00');
+        
+        // Change HUD text
+        const themeEl = document.getElementById('hud-theme');
+        if (themeEl) themeEl.textContent = 'HACKER';
+        
+        const fpsEl = document.getElementById('hud-fps');
+        if (fpsEl) fpsEl.textContent = '999';
+
+        // Matrix Rain Effect
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '0'; // Behind content
+        canvas.style.opacity = '0.3';
+        canvas.style.pointerEvents = 'none';
+        document.body.prepend(canvas);
+
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const chars = '01';
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+            requestAnimationFrame(drawMatrix);
+        }
+        drawMatrix();
     }
 }
