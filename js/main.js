@@ -4,6 +4,9 @@
  */
 
 import { createRipple, initTheme, toggleTheme } from './utils.js';
+import { initDiscordStatus } from './discord.js';
+import { initCustomCursor } from './cursor.js';
+import { initDecorations } from './decorations.js';
 
 (function () {
     'use strict';
@@ -21,9 +24,63 @@ import { createRipple, initTheme, toggleTheme } from './utils.js';
      */
     function init() {
         initTheme();
+        initDiscordStatus();
+        initAge();
+        initCustomCursor();
+        initDecorations();
         setupAnimations();
         setupRippleEffect();
         setupThemeToggle();
+    }
+
+    /**
+     * Initialize Age Calculation with Playful Toggle
+     */
+    function initAge() {
+        const ageElement = document.getElementById('age-display');
+        if (!ageElement) return;
+
+        const birthDate = new Date('2009-08-31');
+        let mode = 'years'; // 'years' | 'days' | 'hours'
+
+        const update = () => {
+            const now = new Date();
+            const diff = now - birthDate;
+
+            if (mode === 'years') {
+                const ageDate = new Date(diff);
+                const years = Math.abs(ageDate.getUTCFullYear() - 1970);
+                ageElement.textContent = `${years}`;
+                ageElement.setAttribute('data-unit', 'years');
+            } else if (mode === 'days') {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                ageElement.textContent = `${days.toLocaleString()}`;
+                ageElement.setAttribute('data-unit', 'days');
+            } else if (mode === 'hours') {
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                ageElement.textContent = `${hours.toLocaleString()}`;
+                ageElement.setAttribute('data-unit', 'hours');
+            }
+        };
+
+        // Initial update
+        update();
+
+        // Toggle on click
+        ageElement.addEventListener('click', () => {
+            if (mode === 'years') mode = 'days';
+            else if (mode === 'days') mode = 'hours';
+            else mode = 'years';
+            
+            // Add glitch effect class temporarily
+            ageElement.classList.add('glitch-active');
+            setTimeout(() => ageElement.classList.remove('glitch-active'), 300);
+            
+            update();
+        });
+
+        // Update every minute just in case
+        setInterval(update, 60000);
     }
 
     /**

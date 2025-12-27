@@ -190,6 +190,21 @@
           "type": "link"
         }
       ]
+    },
+    {
+      "id": 9,
+      "title": "自作のアバター作る",
+      "status": "planning",
+      "progress": 0,
+      "lastUpdated": "2025-12-27",
+      "tags": [
+        "Blender"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G9GkgNaaUAI8Nds?format=png&name=900x900",
+      "summary": "VRCとかいろいろ使う自作のアバターを作る",
+      "content": "",
+      "tasks": [],
+      "links": []
     }
   ]
 }

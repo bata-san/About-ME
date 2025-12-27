@@ -1,4 +1,6 @@
 import { initTheme, toggleTheme } from './utils.js';
+import { initCustomCursor } from './cursor.js';
+import { initDecorations } from './decorations.js';
 
 // State
 let projectsData = [];
@@ -7,6 +9,8 @@ let currentFilter = 'all';
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initCustomCursor();
+    initDecorations();
     setupThemeToggle();
     loadWorksData();
     setupFilters();
@@ -31,6 +35,9 @@ async function loadWorksData() {
         }
         const data = await response.json();
         projectsData = data.projects;
+
+        // Sort by date ascending (earliest first)
+        projectsData.sort((a, b) => new Date(a.lastUpdated) - new Date(b.lastUpdated));
         
         renderWorks();
     } catch (error) {

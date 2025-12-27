@@ -10,7 +10,18 @@
     <link rel="stylesheet" href="css/works.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (prefersDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 </head>
 
 <body class="home-layout">
@@ -36,11 +47,7 @@
         <article class="card">
             <header class="card-header">
                 <div class="avatar">
-                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <circle cx="40" cy="40" r="40" fill="#1a1a1a" />
-                        <circle cx="40" cy="32" r="12" fill="#f5f5f5" />
-                        <path d="M20 65C20 50 28 45 40 45C52 45 60 50 60 65" fill="#f5f5f5" />
-                    </svg>
+                    <img src="https://pbs.twimg.com/profile_images/1958530936842387457/yYGet8Yf_400x400.jpg" alt="Butter's Avatar">
                 </div>
                 <h1 class="name">ばたー/Butter</h1>
                 <p class="role">Designer / 3DCG Modeler</p>
@@ -58,7 +65,11 @@
                     </div>
                     <div class="info-item">
                         <dt class="label">Status</dt>
-                        <dd class="value"><span class="status-indicator" aria-label="Online"></span> Im online XD</dd>
+                        <dd class="value"><span id="discord-status-indicator" class="status-indicator" aria-label="Status"></span> <span id="discord-status-text">Loading...</span></dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="label">Age</dt>
+                        <dd class="value" id="age-display" style="cursor: pointer;" title="Click to toggle unit">--</dd>
                     </div>
                 </dl>
             </div>
@@ -96,6 +107,7 @@
                     Booth
                 </a>
             </footer>
+            <div class="access-counter" aria-hidden="true">SEQ. <span id="visit-count">000000</span></div>
         </article>
     </main>
     <script type="module" src="js/main.js" defer></script>
