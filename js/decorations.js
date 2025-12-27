@@ -98,15 +98,10 @@ export function initDecorations() {
         const BASE_COUNT = 4096;
         
         let count = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-        // Only increment if not already incremented in this session (optional, but simple increment is fine for decoration)
-        // For now, we just read it. The increment logic was in main.js, we'll move it here.
         
-        // Check if we should increment (simple check: session storage flag)
-        if (!sessionStorage.getItem('visit_incremented')) {
-            count++;
-            localStorage.setItem(STORAGE_KEY, count.toString());
-            sessionStorage.setItem('visit_incremented', 'true');
-        }
+        // Increment on every load to show activity
+        count++;
+        localStorage.setItem(STORAGE_KEY, count.toString());
 
         const displayCount = (BASE_COUNT + count).toString().padStart(6, '0');
         visitsEl.textContent = displayCount;
