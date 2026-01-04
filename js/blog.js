@@ -176,4 +176,18 @@ function renderArticle(post) {
     }
     
     document.getElementById('article-body').innerHTML = post.content;
+
+    // Track download button clicks
+    const downloadBtns = document.querySelectorAll('.download-button');
+    downloadBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // Google Analytics Event
+            if (typeof gtag === 'function') {
+                gtag('event', 'file_download', {
+                    'file_name': btn.getAttribute('href'),
+                    'file_extension': 'zip'
+                });
+            }
+        });
+    });
 }
