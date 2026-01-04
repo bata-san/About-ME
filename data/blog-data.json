@@ -1,0 +1,19 @@
+{
+    "posts": [
+        {
+            "id": "bonesplitter-addon-intro",
+            "title": "BoneSplitterで爆速髪ボーン生成（GitHub Copilot制作）",
+            "date": "2026-01-04",
+            "tags": [
+                "Blender",
+                "Rigging",
+                "Addon",
+                "GitHub Copilot",
+                "Hair"
+            ],
+            "thumbnail": "https://placehold.co/800x400/111/eee?text=BoneSplitter+Addon",
+            "summary": "Blender 5.0向け髪ボーン自動生成アドオン「BoneSplitter」を紹介。GitHub Copilotで開発し、選択束からボーン生成・左右判定・自動ウェイトまで一発で完了します。",
+            "content": "<h2>BoneSplitterとは？</h2><p>Blender 5.0で髪の束を選択してボタンを押すだけで、<strong>cc_hear.&lt;L/R/C&gt;.&lt;髪番号&gt;.&lt;ボーン番号&gt;</strong>命名のボーンチェーンを自動生成し、ウェイトまで割り当てるアドオンです。開発には <strong>GitHub Copilot</strong> を活用しました。</p><h3>主な特徴</h3><ul><li>Ctrl+Lで選んだ束に沿ってボーンを自動配置</li><li>左右自動判定（.L/.R、中央はC）と連番命名</li><li>距離減衰を調整可能な自動ウェイト（最大影響本数も指定可）</li><li>ボーン数・スムージング・減衰カーブをUIから即調整</li></ul><h3>使い方（3ステップ）</h3><ol><li>髪メッシュを編集モードにして頂点を1つ選択 → Ctrl+Lで束を選択</li><li>BoneSplitterパネルでボーン数やスムージングを設定</li><li>「選択した束に生成」をクリックで完了</li></ol><blockquote><p>命名例: <code>cc_hear.R.01.001</code>（右側・髪番号01・1番目のボーン）</p></blockquote><h3>おすすめ設定</h3><ul><li>ボーン数: 4〜6</li><li>スムージング: 1〜2</li><li>影響半径: 髪幅に合わせて微調整</li><li>最大影響ボーン: 2</li><li>減衰カーブ: 2.0〜3.0（タイトな追従）</li></ul><h3>UIイメージ</h3><p>メインパネルに生成ボタンとヒント、設定パネルに命名・親ボーン・ウェイト調整、ツールパネルにミラーとウェイトクリーンアップを配置。</p><h3>導入メモ</h3><p>Blenderのアドオンフォルダに配置して有効化するだけ。更新時は__pycache__を消すと反映が早いです。</p><h3>ダウンロード</h3><p>以下からアドオンのzipファイルをダウンロードできます。</p><a href='files/BoneSplitter.zip' download class='download-button'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'></path><polyline points='7 10 12 15 17 10'></polyline><line x1='12' y1='15' x2='12' y2='3'></line></svg>Download ZIP</a><h3>まとめ</h3><p>髪ボーンの手作業をほぼゼロにし、Unityなどでの揺れ設定用ボーンを一括生成します。GitHub Copilot支援で短期間に実装しました。ぜひ試してみてください。</p>"
+        }
+    ]
+}

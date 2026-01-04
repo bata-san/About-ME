@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bata-san.github.io/About-ME/sitemap.xml

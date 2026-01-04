@@ -372,9 +372,50 @@ body.home-layout {
     color: #000;
 }
 
+/* Specific CTA style for Blog */
+.link-button[href="blog.html"] {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+.link-button[href="blog.html"]:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
 .link-button svg {
     width: 14px;
     height: 14px;
+}
+
+/* Download Button */
+.download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-family: var(--font-meta);
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 2px;
+    transition: var(--transition-base);
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+.download-button:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    border-color: var(--text-primary);
+}
+
+.download-button svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* ==========================================================================
@@ -699,7 +740,7 @@ body.home-layout {
 }
 
 /* Adjust theme toggle position since it's now in .controls */
-.theme-toggle {
+.controls .theme-toggle {
     position: static; /* Reset absolute positioning */
 }
 
