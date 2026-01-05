@@ -7,6 +7,7 @@ import { createRipple, initTheme, toggleTheme } from './utils.js';
 import { initDiscordStatus } from './discord.js';
 import { initCustomCursor } from './cursor.js';
 import { initDecorations } from './decorations.js';
+import { initLastFm } from './lastfm.js';
 
 (function () {
     'use strict';
@@ -28,6 +29,7 @@ import { initDecorations } from './decorations.js';
         initAge();
         initCustomCursor();
         initDecorations();
+        initLastFm();
         setupAnimations();
         setupRippleEffect();
         setupThemeToggle();

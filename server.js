@@ -25,8 +25,20 @@ const server = http.createServer((req, res) => {
         });
         req.on('end', () => {
             try {
-                const data = JSON.parse(body);
-                const filePath = path.join(__dirname, 'data', 'works-data.json');
+                const payload = JSON.parse(body);
+                const type = payload.type; // 'works' or 'blog'
+                const data = payload.data;
+
+                let filename;
+                if (type === 'works') {
+                    filename = 'works-data.json';
+                } else if (type === 'blog') {
+                    filename = 'blog-data.json';
+                } else {
+                    throw new Error('Invalid data type');
+                }
+
+                const filePath = path.join(__dirname, 'data', filename);
                 
                 // Ensure directory exists
                 const dir = path.dirname(filePath);
@@ -36,8 +48,8 @@ const server = http.createServer((req, res) => {
 
                 fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ success: true, message: 'File saved successfully' }));
-                console.log('Data saved to works-data.json');
+                res.end(JSON.stringify({ success: true, message: `File ${filename} saved successfully` }));
+                console.log(`Data saved to ${filename}`);
             } catch (error) {
                 console.error('Save error:', error);
                 res.writeHead(500, { 'Content-Type': 'application/json' });

@@ -205,6 +205,22 @@
       "content": "",
       "tasks": [],
       "links": []
+    },
+    {
+      "id": 10,
+      "title": "甲冑メカリベンジ",
+      "tags": [
+        "Blender",
+        "Mech"
+      ],
+      "thumbnail": "https://pbs.twimg.com/media/G9q0KOBaAAAsGXI?format=jpg&name=medium",
+      "summary": "前挫折した甲冑みたいなメカを完成させる、無人機みたいな感じで作れたら楽しそう",
+      "content": "",
+      "status": "in-progress",
+      "progress": 20,
+      "lastUpdated": "2026-01-05",
+      "tasks": [],
+      "links": []
     }
   ]
 }

@@ -1,180 +1,323 @@
-let projects = [];
-let currentProjectId = null;
+
+let currentMode = 'works'; // 'works' or 'blog'
+let currentId = null;
+let appData = {
+    works: [],
+    blog: []
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initial Load
-    loadData();
+    loadAllData();
 
-    // Event Listeners
-    document.getElementById('add-btn').addEventListener('click', createNewProject);
-    document.getElementById('delete-btn').addEventListener('click', deleteProject);
-    document.getElementById('save-btn').addEventListener('click', saveCurrentProject);
-    document.getElementById('save-file-btn').addEventListener('click', saveToFile);
-    document.getElementById('load-btn').addEventListener('click', loadData);
-    document.getElementById('copy-json-btn').addEventListener('click', copyJson);
+    // Mode Switchers
+    document.getElementById('mode-works').addEventListener('click', () => switchMode('works'));
+    document.getElementById('mode-blog').addEventListener('click', () => switchMode('blog'));
+
+    // Actions
+    document.getElementById('add-btn').addEventListener('click', createNewItem);
+    document.getElementById('delete-btn').addEventListener('click', deleteItem);
+    document.getElementById('save-btn').addEventListener('click', saveToServer);
+    document.getElementById('load-btn').addEventListener('click', loadAllData);
+    
+    // Form Helpers
     document.getElementById('add-link-btn').addEventListener('click', () => addLinkField());
     document.getElementById('add-task-btn').addEventListener('click', () => addTaskField());
+    document.getElementById('copy-json-btn').addEventListener('click', copyJson);
 });
 
-async function loadData() {
+async function loadAllData() {
     try {
-        const response = await fetch('data/works-data.json');
-        if (response.ok) {
-            const data = await response.json();
-            projects = data.projects || [];
-            renderProjectList();
-            updateJsonOutput();
-            if (projects.length > 0) {
-                selectProject(projects[0].id);
-            }
-        } else {
-            alert('Could not load data/works-data.json automatically. Starting with empty list.');
+        // Load Works
+        const worksRes = await fetch('data/works-data.json');
+        if (worksRes.ok) {
+            const json = await worksRes.json();
+            appData.works = json.projects || [];
         }
+
+        // Load Blog
+        const blogRes = await fetch('data/blog-data.json');
+        if (blogRes.ok) {
+            const json = await blogRes.json();
+            appData.blog = json.posts || [];
+        }
+
+        renderList();
+        if (getList().length > 0) {
+            selectItem(getList()[0].id);
+        } else {
+            createNewItem();
+        }
+        updateJsonPreview();
+
     } catch (e) {
-        console.error(e);
-        alert('Error loading data. Ensure you are running this on a local server.');
+        console.error("Error loading data:", e);
+        alert("Error loading data. Check console.");
     }
 }
 
-function renderProjectList() {
-    const list = document.getElementById('project-list');
-    list.innerHTML = '';
+function switchMode(mode) {
+    currentMode = mode;
+    
+    // Update UI Buttons
+    document.getElementById('mode-works').classList.toggle('active', mode === 'works');
+    document.getElementById('mode-works').classList.toggle('btn-primary', mode === 'works');
+    document.getElementById('mode-blog').classList.toggle('active', mode === 'blog');
+    document.getElementById('mode-blog').classList.toggle('btn-primary', mode === 'blog');
 
-    projects.forEach(p => {
+    // Toggle Form Fields
+    document.querySelectorAll('.field-works').forEach(el => el.classList.toggle('hidden', mode !== 'works'));
+    document.querySelectorAll('.field-blog').forEach(el => el.classList.toggle('hidden', mode !== 'blog'));
+
+    // Reset Selection
+    renderList();
+    const list = getList();
+    if (list.length > 0) {
+        selectItem(list[0].id);
+    } else {
+        createNewItem();
+    }
+    updateJsonPreview();
+}
+
+function getList() {
+    return currentMode === 'works' ? appData.works : appData.blog;
+}
+
+function renderList() {
+    const listContainer = document.getElementById('content-list');
+    listContainer.innerHTML = '';
+    const list = getList();
+
+    // Sort by ID desc (newest first) usually, or by date
+    // For now, just render as is
+    const sortedList = [...list].reverse(); 
+
+    sortedList.forEach(item => {
         const div = document.createElement('div');
-        div.className = `project-item ${p.id === currentProjectId ? 'active' : ''}`;
-        div.onclick = () => selectProject(p.id);
+        div.className = `project-item ${item.id === currentId ? 'active' : ''}`;
+        div.onclick = () => selectItem(item.id);
+        
+        let meta = '';
+        if (currentMode === 'works') {
+            meta = `<span>${item.status}</span> • <span>${item.lastUpdated}</span>`;
+        } else {
+            meta = `<span>${item.date}</span>`;
+        }
+
         div.innerHTML = `
-            <div class="project-item-title">${p.title || 'Untitled'}</div>
-            <div class="project-item-meta">
-                <span>${p.status}</span>
-                <span>${p.lastUpdated}</span>
-            </div>
+            <div class="project-item-title">${item.title || 'Untitled'}</div>
+            <div class="project-item-meta">${meta}</div>
         `;
-        list.appendChild(div);
+        listContainer.appendChild(div);
     });
 }
 
-function selectProject(id) {
-    currentProjectId = id;
-    const project = projects.find(p => p.id === id);
-    if (!project) return;
+function selectItem(id) {
+    currentId = id;
+    const list = getList();
+    const item = list.find(i => i.id === id);
+    if (!item) return;
 
-    renderProjectList(); // Update active state
+    renderList(); // Update active class
 
-    // Populate Form
-    const form = document.getElementById('project-form');
-    form.id.value = project.id;
-    form.title.value = project.title || '';
-    form.status.value = project.status || 'planning';
-    form.progress.value = project.progress || 0;
-    form.lastUpdated.value = project.lastUpdated || new Date().toISOString().split('T')[0];
-    form.tags.value = (project.tags || []).join(', ');
-    form.thumbnail.value = project.thumbnail || '';
-    form.summary.value = project.summary || '';
-    form.content.value = project.content || '';
-
-    // Populate Tasks
-    const taskContainer = document.getElementById('tasks-container');
-    taskContainer.innerHTML = '';
-    if (project.tasks && Array.isArray(project.tasks)) {
-        project.tasks.forEach(task => addTaskField(task));
-    }
-
-    // Populate Links
-    const container = document.getElementById('links-container');
-    container.innerHTML = '';
-    if (project.links && Array.isArray(project.links)) {
-        project.links.forEach(link => addLinkField(link));
-    }
-}
-
-function createNewProject() {
-    const newId = projects.length > 0 ? Math.max(...projects.map(p => p.id)) + 1 : 1;
-    const newProject = {
-        id: newId,
-        title: "New Project",
-        status: "planning",
-        progress: 0,
-        lastUpdated: new Date().toISOString().split('T')[0],
-        tags: [],
-        thumbnail: "",
-        summary: "",
-        content: "",
-        tasks: [],
-        links: []
-    };
-    projects.push(newProject);
-    renderProjectList();
-    selectProject(newId);
-    updateJsonOutput();
-}
-
-function saveCurrentProject() {
-    if (!currentProjectId) return;
-
-    const form = document.getElementById('project-form');
-    const index = projects.findIndex(p => p.id === currentProjectId);
+    const form = document.getElementById('editor-form');
     
-    if (index !== -1) {
+    // Common Fields
+    form.id.value = item.id;
+    form.title.value = item.title || '';
+    form.tags.value = (item.tags || []).join(', ');
+    form.thumbnail.value = item.thumbnail || '';
+    form.summary.value = item.summary || '';
+    form.content.value = item.content || '';
+
+    // Mode Specific
+    if (currentMode === 'works') {
+        form.status.value = item.status || 'planning';
+        form.progress.value = item.progress || 0;
+        form.lastUpdated.value = item.lastUpdated || new Date().toISOString().split('T')[0];
+        
+        // Tasks
+        const taskContainer = document.getElementById('tasks-container');
+        taskContainer.innerHTML = '';
+        if (item.tasks && Array.isArray(item.tasks)) {
+            item.tasks.forEach(task => addTaskField(task));
+        }
+
+        // Links
+        const linkContainer = document.getElementById('links-container');
+        linkContainer.innerHTML = '';
+        if (item.links && Array.isArray(item.links)) {
+            item.links.forEach(link => addLinkField(link));
+        }
+    } else {
+        // Blog
+        form.date.value = item.date || new Date().toISOString().split('T')[0];
+    }
+}
+
+function createNewItem() {
+    const list = getList();
+    // Generate new ID (simple max + 1)
+    // If IDs are strings (like UUIDs), this needs changing. Assuming numbers for now based on previous code.
+    // Actually, let's check if IDs are numbers or strings.
+    // Previous code used numbers.
+    
+    let newId = 1;
+    if (list.length > 0) {
+        const maxId = Math.max(...list.map(i => parseInt(i.id) || 0));
+        newId = maxId + 1;
+    }
+
+    let newItem = {};
+    if (currentMode === 'works') {
+        newItem = {
+            id: newId,
+            title: "New Project",
+            status: "planning",
+            progress: 0,
+            lastUpdated: new Date().toISOString().split('T')[0],
+            tags: [],
+            thumbnail: "",
+            summary: "",
+            content: "",
+            tasks: [],
+            links: []
+        };
+        appData.works.push(newItem);
+    } else {
+        newItem = {
+            id: newId,
+            title: "New Blog Post",
+            date: new Date().toISOString().split('T')[0],
+            tags: [],
+            thumbnail: "",
+            summary: "",
+            content: ""
+        };
+        appData.blog.push(newItem);
+    }
+
+    selectItem(newId);
+    updateJsonPreview();
+}
+
+function saveToMemory() {
+    if (!currentId) return;
+    const list = getList();
+    const index = list.findIndex(i => i.id == currentId); // Loose equality for string/number mismatch
+    if (index === -1) return;
+
+    const form = document.getElementById('editor-form');
+    
+    // Base object
+    const updatedItem = {
+        id: parseInt(form.id.value), // Ensure ID is number
+        title: form.title.value,
+        tags: form.tags.value.split(',').map(t => t.trim()).filter(t => t),
+        thumbnail: form.thumbnail.value,
+        summary: form.summary.value,
+        content: form.content.value
+    };
+
+    if (currentMode === 'works') {
+        updatedItem.status = form.status.value;
+        updatedItem.progress = parseInt(form.progress.value);
+        updatedItem.lastUpdated = form.lastUpdated.value;
+
         // Collect Tasks
         const taskItems = document.querySelectorAll('.task-item-editor');
         const tasks = [];
         taskItems.forEach(item => {
             const name = item.querySelector('.task-name').value;
             const completed = item.querySelector('.task-completed').checked;
-            if (name) {
-                tasks.push({ name, completed });
-            }
+            if (name) tasks.push({ name, completed });
         });
+        updatedItem.tasks = tasks;
 
         // Collect Links
-        const linksContainer = document.getElementById('links-container');
-        const linkItems = linksContainer.querySelectorAll('.link-item');
+        const linkItems = document.querySelectorAll('.link-item');
         const links = [];
         linkItems.forEach(item => {
-            const labelInput = item.querySelector('.link-label');
-            const urlInput = item.querySelector('.link-url');
-            const typeInput = item.querySelector('.link-type');
-            
-            if (labelInput && urlInput && typeInput) {
-                const label = labelInput.value;
-                const url = urlInput.value;
-                const type = typeInput.value;
-                if (label || url) {
-                    links.push({ label, url, type });
-                }
-            }
+            const label = item.querySelector('.link-label').value;
+            const url = item.querySelector('.link-url').value;
+            const type = item.querySelector('.link-type').value;
+            if (label || url) links.push({ label, url, type });
+        });
+        updatedItem.links = links;
+
+        appData.works[index] = updatedItem;
+    } else {
+        updatedItem.date = form.date.value;
+        appData.blog[index] = updatedItem;
+    }
+
+    renderList();
+    updateJsonPreview();
+}
+
+function deleteItem() {
+    if (!currentId || !confirm('Are you sure you want to delete this item?')) return;
+    
+    if (currentMode === 'works') {
+        appData.works = appData.works.filter(i => i.id != currentId);
+    } else {
+        appData.blog = appData.blog.filter(i => i.id != currentId);
+    }
+
+    const list = getList();
+    if (list.length > 0) {
+        selectItem(list[0].id);
+    } else {
+        createNewItem();
+    }
+    updateJsonPreview();
+}
+
+async function saveToServer() {
+    saveToMemory(); // Ensure current form state is saved to memory first
+
+    const payload = {
+        type: currentMode,
+        data: currentMode === 'works' ? { projects: appData.works } : { posts: appData.blog }
+    };
+
+    try {
+        const response = await fetch('/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
 
-        projects[index] = {
-            id: parseInt(form.id.value),
-            title: form.title.value,
-            status: form.status.value,
-            progress: parseInt(form.progress.value),
-            lastUpdated: form.lastUpdated.value,
-            tags: form.tags.value.split(',').map(t => t.trim()).filter(t => t),
-            thumbnail: form.thumbnail.value,
-            summary: form.summary.value,
-            content: form.content.value,
-            tasks: tasks,
-            links: links
-        };
-
-        renderProjectList();
-        updateJsonOutput();
-        alert('Saved to memory! Don\'t forget to copy JSON.');
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                alert(`Saved ${currentMode} data successfully!`);
+            } else {
+                alert('Server reported error: ' + result.message);
+            }
+        } else {
+            alert('Network error saving data.');
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Error saving to server.');
     }
 }
 
-function deleteProject() {
-    if (!currentProjectId || !confirm('Are you sure?')) return;
-    projects = projects.filter(p => p.id !== currentProjectId);
-    currentProjectId = null;
-    renderProjectList();
-    updateJsonOutput();
-    if (projects.length > 0) selectProject(projects[0].id);
+function updateJsonPreview() {
+    const data = currentMode === 'works' ? { projects: appData.works } : { posts: appData.blog };
+    document.getElementById('json-output').value = JSON.stringify(data, null, 2);
 }
+
+function copyJson() {
+    const textarea = document.getElementById('json-output');
+    textarea.select();
+    document.execCommand('copy');
+    alert('JSON copied to clipboard!');
+}
+
+// --- Helpers ---
 
 function addLinkField(data = { label: '', url: '', type: 'link' }) {
     const container = document.getElementById('links-container');
@@ -195,87 +338,11 @@ function addLinkField(data = { label: '', url: '', type: 'link' }) {
 function addTaskField(data = { name: '', completed: false }) {
     const container = document.getElementById('tasks-container');
     const div = document.createElement('div');
-    div.className = 'link-item task-item-editor'; // Reuse link-item style for layout
+    div.className = 'link-item task-item-editor';
     div.innerHTML = `
         <input type="checkbox" class="task-completed" ${data.completed ? 'checked' : ''} style="margin-right: 8px;">
         <input type="text" class="form-control task-name" placeholder="Task Name" value="${data.name || ''}" style="flex: 1">
         <button type="button" class="btn btn-icon" onclick="this.parentElement.remove()">×</button>
     `;
     container.appendChild(div);
-}
-
-function updateJsonOutput() {
-    const json = JSON.stringify({ projects: projects }, null, 2);
-    document.getElementById('json-output').value = json;
-}
-
-function copyJson() {
-    const textarea = document.getElementById('json-output');
-    textarea.select();
-    document.execCommand('copy');
-    alert('JSON copied to clipboard!');
-}
-
-async function saveToFile() {
-    const json = JSON.stringify({ projects: projects }, null, 2);
-
-    // 1. Try Server API (Node.js backend)
-    try {
-        const response = await fetch('/api/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: json
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            if (result.success) {
-                alert('Saved to server successfully!');
-                return;
-            }
-        }
-    } catch (e) {
-        console.log('Server save failed, trying other methods...', e);
-    }
-
-    // 2. Try File System Access API (Chrome/Edge Desktop)
-    try {
-        if (window.showSaveFilePicker) {
-            const options = {
-                suggestedName: 'works-data.json',
-                types: [{
-                    description: 'JSON Files',
-                    accept: {
-                        'application/json': ['.json'],
-                    },
-                }],
-            };
-            
-            const handle = await window.showSaveFilePicker(options);
-            const writable = await handle.createWritable();
-            await writable.write(json);
-            await writable.close();
-            alert('File saved successfully!');
-            return;
-        }
-    } catch (err) {
-        // Ignore AbortError (user cancelled)
-        if (err.name === 'AbortError') return;
-        console.warn('File System Access API failed, falling back to download:', err);
-    }
-
-    // 3. Fallback: Download as file
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'works-data.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert('File downloaded! Please replace the original data/works-data.json with this file.');
 }

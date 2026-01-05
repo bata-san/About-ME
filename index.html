@@ -70,8 +70,9 @@
 
     <main class="layout container">
         <!-- Profile Card -->
-        <article class="card">
-            <header class="card-header">
+        <div class="home-grid">
+            <article class="card">
+                <header class="card-header">
                 <div class="avatar">
                     <img src="https://pbs.twimg.com/profile_images/1958530936842387457/yYGet8Yf_400x400.jpg" alt="Butter's Avatar">
                 </div>
@@ -142,8 +143,34 @@
                     </svg>
                     Booth
                 </a>
-            </footer>
-        </article>
+            </article>
+
+            <div class="side-stack">
+                <!-- Music Status Card -->
+                <aside class="music-card" aria-label="Last.fm signal">
+                    <header class="music-header">
+                        <h2 class="music-title">SIGNAL</h2>
+                        <div class="music-indicator"></div>
+                    </header>
+                    <div id="lastfm-container">
+                        <!-- Content injected by JS -->
+                    </div>
+                </aside>
+
+                <!-- Bottom-right filler card (to square the layout) -->
+                <aside class="music-card utility-card" aria-label="Supplementary module">
+                    <header class="music-header">
+                        <h2 class="music-title">MODULE</h2>
+                        <div class="music-indicator"></div>
+                    </header>
+                    <div class="utility-body">
+                        <div class="utility-placeholder">
+                            <span class="utility-placeholder-text">RESERVED</span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
     </main>
     <script type="module" src="js/main.js" defer></script>
 </body>

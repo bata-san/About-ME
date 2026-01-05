@@ -72,13 +72,30 @@
         </header>
 
         <section class="works-content">
-            <div class="works-filter">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="in-progress">In Progress</button>
-                <button class="filter-btn" data-filter="completed">Completed</button>
-                <button class="filter-btn" data-filter="planning">Planning</button>
+            <div class="works-toolbar">
+                <div class="filter-group">
+                    <span class="toolbar-label">Filter:</span>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="in-progress">In Progress</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                        <button class="filter-btn" data-filter="planning">Planning</button>
+                    </div>
+                </div>
+                <div class="sort-group">
+                    <span class="toolbar-label">Sort:</span>
+                    <div class="select-wrapper">
+                        <select id="sort-select" class="sort-select">
+                            <option value="date-desc">Newest First</option>
+                            <option value="date-asc">Oldest First</option>
+                            <option value="progress-desc">Progress (High)</option>
+                            <option value="progress-asc">Progress (Low)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div id="works-list" class="works-list">
+            
+            <div id="works-list" class="works-list grid-layout">
                 <!-- Works will be loaded here -->
                 <div class="loading">Loading projects...</div>
             </div>
