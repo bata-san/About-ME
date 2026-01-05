@@ -436,7 +436,7 @@ body.home-layout {
     justify-content: center;
     cursor: pointer;
     transition: var(--transition-base);
-    z-index: 100;
+    z-index: 10000; /* Ensure visibility */
     box-shadow: none;
 }
 
@@ -656,10 +656,10 @@ body.home-layout {
 .controls {
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 140px; /* Moved left to avoid HUD overlap */
     display: flex;
     gap: 10px;
-    z-index: 1000;
+    z-index: 10000; /* Ensure above HUD */
 }
 
 .control-btn {
@@ -1148,57 +1148,8 @@ body.home-layout {
     }
 }
 
-/* Fix for missing styles in production */
-.theme-toggle {
-    position: fixed !important;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex !important;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    width: 40px;
-    height: 40px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-.theme-toggle:hover {
-    border-color: var(--signal-red);
-    color: var(--signal-red);
-}
-
-.download-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    text-decoration: none;
-    font-family: var(--font-meta);
-    font-size: 12px;
-    font-weight: 700;
-    border-radius: 2px;
-    transition: var(--transition-base);
-    cursor: pointer;
-    margin-top: 16px;
-}
-
-.download-button:hover {
-    background: var(--text-primary);
-    color: var(--bg-primary);
-    border-color: var(--text-primary);
-}
-
-.download-button svg {
-    width: 16px;
-    height: 16px;
-}
+/* Fix for missing styles in production - Removed duplicates */
+/* .theme-toggle and .download-button are defined earlier */
 /* ==========================================================================
    Works Page Styles (Matte Entity Layout)
    ========================================================================== */
