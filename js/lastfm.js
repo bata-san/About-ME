@@ -78,7 +78,7 @@ function renderLastFmWidget(container, tracks) {
     const imageUrl = getTrackImage(currentTrack);
     const mainTrackHtml = `
         <a href="${currentTrack.url}" target="_blank" rel="noopener noreferrer" class="current-track">
-            <div class="track-art">
+            <div class="track-art ${isNowPlaying ? 'playing' : ''}">
                 ${imageUrl ? `<img src="${imageUrl}" alt="Album Art">` : '<div class="no-art"></div>'}
             </div>
             <div class="track-info">

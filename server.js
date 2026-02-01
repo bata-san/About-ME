@@ -1,8 +1,10 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
 const PORT = 3000;
+const TWITTER_BEARER_TOKEN = 'AAAAAAAAAAAAAAAAAAAAAMxJ7QEAAAAARMGlTa1NdkK3j46vv0lRiWdCTAk%3DaIAELb8Wi0A6HOIPr5fjTw6iTAJih0tYpPqMt7xIFO4W2tJQNO';
 const MIME_TYPES = {
     '.html': 'text/html',
     '.js': 'text/javascript',
@@ -16,6 +18,92 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
     console.log(`${req.method} ${req.url}`);
+
+    // CORS headers for API endpoints
+    const corsHeaders = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    };
+
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204, corsHeaders);
+        res.end();
+        return;
+    }
+
+    // Twitter API Proxy: Get user info
+    if (req.method === 'GET' && req.url.startsWith('/api/twitter/user/')) {
+        const username = req.url.split('/api/twitter/user/')[1].split('?')[0];
+        const queryParams = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
+        
+        const options = {
+            hostname: 'api.twitter.com',
+            path: `/2/users/by/username/${username}${queryParams}`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${TWITTER_BEARER_TOKEN}`,
+                'User-Agent': 'v2UserLookupJS'
+            }
+        };
+
+        const twitterReq = https.request(options, (twitterRes) => {
+            let data = '';
+            twitterRes.on('data', (chunk) => {
+                data += chunk;
+            });
+            twitterRes.on('end', () => {
+                res.writeHead(twitterRes.statusCode, { ...corsHeaders, 'Content-Type': 'application/json' });
+                res.end(data);
+            });
+        });
+
+        twitterReq.on('error', (error) => {
+            console.error('Twitter API error:', error);
+            res.writeHead(500, { ...corsHeaders, 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to fetch from Twitter API' }));
+        });
+
+        twitterReq.end();
+        return;
+    }
+
+    // Twitter API Proxy: Get user tweets
+    if (req.method === 'GET' && req.url.startsWith('/api/twitter/tweets/')) {
+        const userId = req.url.split('/api/twitter/tweets/')[1].split('?')[0];
+        const queryParams = req.url.includes('?') ? '?' + req.url.split('?')[1] : '';
+        
+        const options = {
+            hostname: 'api.twitter.com',
+            path: `/2/users/${userId}/tweets${queryParams}`,
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${TWITTER_BEARER_TOKEN}`,
+                'User-Agent': 'v2UserTweetsJS'
+            }
+        };
+
+        const twitterReq = https.request(options, (twitterRes) => {
+            let data = '';
+            twitterRes.on('data', (chunk) => {
+                data += chunk;
+            });
+            twitterRes.on('end', () => {
+                res.writeHead(twitterRes.statusCode, { ...corsHeaders, 'Content-Type': 'application/json' });
+                res.end(data);
+            });
+        });
+
+        twitterReq.on('error', (error) => {
+            console.error('Twitter API error:', error);
+            res.writeHead(500, { ...corsHeaders, 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Failed to fetch from Twitter API' }));
+        });
+
+        twitterReq.end();
+        return;
+    }
 
     // API: Save JSON
     if (req.method === 'POST' && req.url === '/api/save') {
